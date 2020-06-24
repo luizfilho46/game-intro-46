@@ -1,11 +1,13 @@
 let imagemCenario;
 let imagemPersonagem;
 let imagemInimigo;
+let imagemInimigoTroll;
 let cenario;
 let somDoJogo;
 let somDoPulo;
 let personagem;
 let inimigo;
+let inimigoTroll;
 
 const matrizInimigo = [
   [0, 0],
@@ -55,12 +57,46 @@ this.matrizPersonagem = [
   [220, 810],
   [440, 810],
   [660, 810],
-]
+];
+
+const matrizInimigoTroll = [
+  [0,0],
+  [400,0],
+  [800,0],
+  [1200,0],
+  [1600,0],
+  [0,400],
+  [400,400],
+  [800,400],
+  [1200, 400],
+  [1600, 400],
+  [0,800],
+  [400, 800],
+  [800, 800],
+  [1200, 800],
+  [1600, 800],
+  [0, 1200],
+  [400, 1200],
+  [800, 1200],
+  [1200, 1200],
+  [1600, 1200], 
+  [0, 1600],
+  [400, 1600],
+  [800, 1600],
+  [1200, 1600],
+  [1600, 1600],
+  [0, 2000],
+  [400, 2000],
+  [800, 2000],
+];
+
+
 
 function preload() {
   imagemCenario = loadImage('imagens/cenario/floresta.png');
   imagemPersonagem = loadImage('imagens/personagem/correndo.png');
   imagemInimigo = loadImage('imagens/inimigos/gotinha.png');
+  imagemInimigoTroll = loadImage('imagens/inimigos/troll.png');
   somDoJogo = loadSound('sons/trilha_jogo.mp3');
   somDoPulo = loadSound('sons/somPulo.mp3');
 }
@@ -69,8 +105,9 @@ function preload() {
 function setup() {
   createCanvas(windowWidth, windowHeight);
   cenario = new Cenario(imagemCenario, 5);
-  personagem = new Personagem(matrizPersonagem, imagemPersonagem, 0, 110, 135, 220, 270);
-  inimigo = new Inimigo(matrizInimigo, imagemInimigo, width - 52, 52, 52, 104, 104);
+  personagem = new Personagem(matrizPersonagem, imagemPersonagem, 0, 30, 110, 135, 220, 270);
+  inimigo = new Inimigo(matrizInimigo, imagemInimigo, width - 52, 30, 52, 52, 104, 104, 10, 100);
+  inimigoTroll = new Inimigo(matrizInimigoTroll, imagemInimigoTroll, width * 2, 0, 200, 200, 400, 400, 10, 500);
   frameRate(40);
   // somDoJogo.play();
   // somDoJogo.loop();
@@ -91,9 +128,11 @@ function draw() {
   personagem.aplicarGravidade()
   inimigo.exibir();
   inimigo.mover();
+  inimigoTroll.exibir();
+  inimigoTroll.mover();
 
   if (personagem.estaColidindo(inimigo)) {
     console.log('Colidiu')
-    noLoop()
+    // noLoop()
   }
 }
