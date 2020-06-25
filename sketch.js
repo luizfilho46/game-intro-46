@@ -10,6 +10,8 @@ let personagem;
 let inimigo;
 let inimigoTroll;
 let inimigoVoador;
+let pontuacao;
+let imagemGameOver
 
 const matrizInimigo = [
   [0, 0],
@@ -115,6 +117,7 @@ const inimigos = [];
 
 function preload() {
   imagemCenario = loadImage('imagens/cenario/floresta.png');
+  imagemGameOver = loadImage('imagens/assets/game-over.png');
   imagemPersonagem = loadImage('imagens/personagem/correndo.png');
   imagemInimigo = loadImage('imagens/inimigos/gotinha.png');
   imagemInimigoTroll = loadImage('imagens/inimigos/troll.png');
@@ -126,11 +129,17 @@ function preload() {
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
+  pontuacao = new Pontuacao();
   cenario = new Cenario(imagemCenario, 5);
   personagem = new Personagem(matrizPersonagem, imagemPersonagem, 0, 30, 110, 135, 220, 270);
-  inimigo = new Inimigo(matrizInimigo, imagemInimigo, width - 52, 30, 52, 52, 104, 104, 10, 200);
-  inimigoVoador = new Inimigo(matrizInimigoVoador, imagemInimigoVoador, width - 52, 200, 100, 75, 200, 150, 10, 500);
-  inimigoTroll = new Inimigo(matrizInimigoTroll, imagemInimigoTroll, width * 2, 0, 200, 200, 400, 400, 10, 2500);
+  const inimigo = new Inimigo(matrizInimigo, imagemInimigo, width - 52, 30, 52, 52, 104, 104, 10, 200);
+  const inimigoVoador = new Inimigo(matrizInimigoVoador, imagemInimigoVoador, width - 52, 200, 100, 75, 200, 150, 10, 500);
+  const inimigoTroll = new Inimigo(matrizInimigoTroll, imagemInimigoTroll, width * 2, 0, 200, 200, 400, 400, 10, 2500);
+
+  inimigos.push(inimigo);
+  inimigos.push(inimigoTroll);
+  inimigos.push(inimigoVoador);
+
   frameRate(40);
   // somDoJogo.play();
   // somDoJogo.loop();
@@ -145,19 +154,23 @@ function keyPressed() {
 }
 
 function draw() {
-  cenario.exibe();
+  cenario.exibir();
   cenario.mover();
   personagem.exibir();
-  personagem.aplicarGravidade()
-  inimigo.exibir();
-  inimigo.mover();
-  inimigoVoador.exibir();
-  inimigoVoador.mover();
-  inimigoTroll.exibir();
-  inimigoTroll.mover();
+  personagem.aplicarGravidade();
+  pontuacao.exibir();
+  pontuacao.adicionarPonto();
 
-  if (personagem.estaColidindo(inimigo)) {
-    console.log('Colidiu')
-    // noLoop()
-  }
+  inimigos.forEach( inimigo => {
+    inimigo.exibir();
+    inimigo.mover();
+    
+    if (personagem.estaColidindo(inimigo)) {
+      console.log('Colidiu')
+
+      image(imagemGameOver, width/2 - 200, height/2- 200);
+      noLoop()
+    }
+  })
+
 }
