@@ -8,6 +8,7 @@ class Personagem extends Animacao {
     this.gravidade = 6;
     this.alturaDoPulo = -50;
     this.pulos = 0;
+    this.invencivel = false;
   }
 
   pular() {
@@ -27,7 +28,16 @@ class Personagem extends Animacao {
     }
   }
 
+  ficarInvencivel () {
+    this.invencivel = true;
+    setTimeout(function () {
+      this.invencivel = false;
+    }.bind(this), 1000)
+  }
+
   estaColidindo(inimigo) {
+    if (this.invencivel) return false;
+    console.log('Colidindo')
 
     /* noFill()
 

@@ -6,6 +6,7 @@ let imagemPersonagem;
 let imagemInimigo;
 let imagemInimigoTroll;
 let imagemInimigoVoador;
+let imagemVida;
 let cenario;
 let somDoJogo;
 let somDoPulo;
@@ -15,9 +16,12 @@ let inimigoTroll;
 let inimigoVoador;
 let pontuacao;
 let imagemGameOver;
-let cenaAtual = 'telaInicial';
+// let cenaAtual = 'telaInicial';
+let cenaAtual = 'jogo';
 let cenas;
 let botao;
+let vida;
+let cartucho;
 
 const matrizInimigo = [
     [0, 0],
